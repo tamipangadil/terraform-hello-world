@@ -8,8 +8,6 @@ provider "google-beta" {
 
 resource "google_project_service" "compute_api" {
   service = "compute.googleapis.com"
-
-  disable_on_destroy = true
 }
 
 data "terraform_remote_state" "run_v2_service_public" {
@@ -50,6 +48,11 @@ module "lb-http" {
       }
     }
   }
+
+  # Waits for the Compute Engine API to be enabled
+  depends_on = [
+    google_project_service.compute_api
+  ]
 }
 
 resource "google_compute_region_network_endpoint_group" "serverless_neg" {
