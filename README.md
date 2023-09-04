@@ -26,6 +26,23 @@ make apply-without-ssl
 - `cat > terraform.tfvars <<EOF ...` will generate a global `terraform.tfvars` file for all the terraform modules.
 - `make apply-without-ssl` will deploy the hello world service and the load balancer without SSL.
 
+## Access the service
+
+In this case, I used my personal domain `tamipangadil.com` and created a subdomain `hello-world.tamipangadil.com` to access the hello world service.
+
+```sh
+curl https://hello-world.tamipangadil.com
+curl https://hello-world.tamipangadil.com/private
+```
+
+You may also access the service using the load balancer IP address:
+
+```sh
+cd gcp/lb/example
+curl http://$(terraform output -raw load-balancer-ip)
+curl http://$(terraform output -raw load-balancer-ip)/private
+```
+
 ## Manual setup
 
 ### Create a new project
